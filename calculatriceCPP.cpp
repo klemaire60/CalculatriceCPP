@@ -17,8 +17,8 @@ Etape 3 Créer un historique des calculs
 
 void showMenu();
 double addition(vector<double>& numbers);
-double soustraction(double a, double b);
-double multiplication(double a, double b);
+double soustraction(vector<double>& numbers);
+double multiplication(vector<double>& numbers);
 double division(double a, double b);
 double puissance(double nombre, int exposant);
 
@@ -97,11 +97,19 @@ int main() {
             break;
 
         case 2:
-            //cout << a << " - " << b << " = " << soustraction(a, b) << endl;
+            for (int i = 0; i < numbers.size() - 1; i++)
+            {
+                cout << numbers[i] << " - ";
+            }
+            cout << numbers[numbers.size() - 1] << " = " << soustraction(numbers) << endl;
             break;
 
         case 3:
-            //cout << a << " * " << b << " = " << multiplication(a, b) << endl;
+            for (int i = 0; i < numbers.size() - 1; i++)
+            {
+                cout << numbers[i] << " * ";
+            }
+            cout << numbers[numbers.size() - 1] << " = " << multiplication(numbers) << endl;
             break;
 
         case 4:
@@ -156,21 +164,29 @@ void showMenu()
 
 double addition(vector<double>& numbers)
 {
-    double somme = 0;
+    double result = 0;
     for (double n : numbers) {
-        somme += n;
+        result += n;
     }
-    return somme;
+    return result;
 }
 
-double soustraction(double a, double b)
+double soustraction(vector<double>& numbers)
 {
-    return a - b;
+    double result = 0;
+    for (double n : numbers) {
+        result -= n;
+    }
+    return result;
 }
 
-double multiplication(double a, double b)
+double multiplication(vector<double>& numbers)
 {
-    return a * b;
+    double result = 0;
+    for (double n : numbers) {
+        result *= n;
+    }
+    return result;
 }
 
 double division(double a, double b)
@@ -183,7 +199,6 @@ double puissance(double nombre, int exposant)
     double result = nombre;
     for (int i = 1; i < exposant; i++) {
         result = result * nombre;
-        // result = multiplication(result, nombre);
     }
     return result;
 }
