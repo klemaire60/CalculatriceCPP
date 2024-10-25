@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
 /*
@@ -8,13 +10,13 @@ Etape 1 calculatrice simple
 // Bonus : Clear la console à chaque opération effectuée
 
 Etape 2 utiliser autant de nombre que l'on veut dans les fonctions (exemple 1 + 2 + 3)
-// Vecteurs ??
+// Utilisation de Vecteurs 
 
 Etape 3 Créer un historique des calculs
 */
 
 void showMenu();
-double addition(double a, double b);
+double addition(vector<double>& numbers);
 double soustraction(double a, double b);
 double multiplication(double a, double b);
 double division(double a, double b);
@@ -22,10 +24,11 @@ double puissance(double nombre, int exposant);
 
 int main() {
     int choice, exposant;
-    double a, b;
+    double number;
 
     while (true)
     {
+        vector<double> numbers;
         showMenu();
         cin >> choice;
         
@@ -37,37 +40,48 @@ int main() {
                 break;
             }
 
-            while (true) {
-                cout << "Entrer le premier nombre : ";
-                cin >> a;
-
-                // Vérification de l'entrée utilisateur
-                if (cin.fail()) {
-                    cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Entrez un nombre valide !" << endl;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (choice != 5) {
+            if (choice <= 4)
+            {
+                int i = 0;
                 while (true) {
-                    cout << "Entrez le second nombre : ";
-                    cin >> b;
-
-                    // Vérification de l'entrée utilisateur
-                    if (cin.fail()) {
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        cout << "Entrez un nombre valide !" << endl;
+                    if (i == 0)
+                    {
+                        cout << "Entrez le " << i + 1  << "er nombre ou \"fin\" pour obtenir le resultat : ";
                     }
                     else
                     {
-                        break;
+                        cout << "Entrez le " << i +1 << "eme nombre ou \"fin\" pour obtenir le resultat : ";
                     }
+
+                    if (cin >> number) 
+                    {
+                        numbers.push_back(number);
+
+                        if (choice == 4 && i == 1) break;
+                    }
+                    else
+                    {
+                        // Vérifier si la saisie est "fin"
+                        string input;
+                        cin.clear();
+                        cin >> input;
+                        if (input == "fin")
+                        {
+                            if (i >= 2) {
+                                break;
+                            }
+                            cout << "Il faut au minimum 2 nombres" << endl;
+                            continue;
+                        }
+                        else
+                        {
+                            cout << "Entrez un nombre valide ou \"fin\" pour obtenir le resultat" << endl;
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            continue;
+                        }
+                    }
+                    i++;
                 }
             }
         }
@@ -75,27 +89,33 @@ int main() {
         switch (choice)
         {
         case 1:
-            cout << a << " + " << b << " = " << addition(a, b) << endl;
+            for (int i = 0; i < numbers.size() - 1; i++)
+            {
+                cout << numbers[i] << " + ";
+            }
+            cout << numbers[numbers.size() - 1] << " = " << addition(numbers) << endl;
             break;
 
         case 2:
-            cout << a << " - " << b << " = " << soustraction(a, b) << endl;
+            //cout << a << " - " << b << " = " << soustraction(a, b) << endl;
             break;
 
         case 3:
-            cout << a << " * " << b << " = " << multiplication(a, b) << endl;
+            //cout << a << " * " << b << " = " << multiplication(a, b) << endl;
             break;
 
         case 4:
-            if (b == 0) {
+            if (numbers[1] == 0) {
                 cout << "Division par 0 impossible" << endl;
                 break;
             }
-            cout << a << " / " << b << " = " << division(a, b) << endl;
+            cout << numbers[0] << " / " << numbers[1] << " = " << division(numbers[0], numbers[1]) << endl;
             break;
 
         case 5:
             while (true) {
+                cout << "Entrez le nombre : ";
+                cin >> number;
                 cout << "Entrez l'exposant : ";
                 cin >> exposant;
             
@@ -110,7 +130,7 @@ int main() {
                     break;
                 }
             }
-            cout << a << " ^ " << exposant << " = " << puissance(a, exposant) << endl;
+            cout << number << " ^ " << exposant << " = " << puissance(number, exposant) << endl;
             break;
 
         default :
@@ -134,9 +154,13 @@ void showMenu()
     cout << "[6] Quitter" << endl;
 }
 
-double addition(double a, double b)
+double addition(vector<double>& numbers)
 {
-    return a + b;
+    double somme = 0;
+    for (double n : numbers) {
+        somme += n;
+    }
+    return somme;
 }
 
 double soustraction(double a, double b)
