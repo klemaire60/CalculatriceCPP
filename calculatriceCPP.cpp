@@ -16,6 +16,8 @@ Etape 2 utiliser autant de nombre que l'on veut dans les fonctions (exemple 1 + 
 
 Etape 3 Créer un historique des calculs
 // Utilisation de Vecteurs
+
+Etape 4 Supprimer l'historique
 */
 
 void showMenu();
@@ -40,9 +42,9 @@ int main() {
         showMenu();
         cin >> choice;
         
-        if (choice >= 1 && choice <= 7)
+        if (choice >= 1 && choice <= 8)
         {
-            if (choice == 7) {
+            if (choice == 8) {
                 system("cls");
                 cout << "Au revoir !" << endl;
                 break;
@@ -166,6 +168,12 @@ int main() {
             showHistory(history);
             break;
 
+        case 7:
+            history.clear();
+            system("cls");
+            cout << "L'historique est maintenant vide" << endl;
+            break;
+
         default :
             cout << "Option non valide" << endl;
             break;
@@ -185,7 +193,8 @@ void showMenu()
     cout << "[4] Division" << endl;
     cout << "[5] Puissance" << endl;
     cout << "[6] Voir l'historique des calculs" << endl;
-    cout << "[7] Quitter" << endl;
+    cout << "[7] Vider l'historique des calculs" << endl;
+    cout << "[8] Quitter" << endl;
 }
 
 static void showHistory(vector<string>& history)
