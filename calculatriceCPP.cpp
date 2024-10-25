@@ -1,6 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <vector>
-#include <string>
 
 using namespace std;
 
@@ -24,6 +25,8 @@ double soustraction(vector<double>& numbers);
 double multiplication(vector<double>& numbers);
 double division(double a, double b);
 double puissance(double nombre, int exposant);
+// Fonction remplaçante de to_string pour gérer les décimales
+string formatResult(double result);
 
 int main() {
     int choice, exposant;
@@ -96,9 +99,10 @@ int main() {
         case 1:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                result += to_string(numbers[i]) + " + ";
+                result += formatResult(numbers[i]) + " + ";
             }
-            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(addition(numbers));
+            result += formatResult(numbers[numbers.size() - 1]) + " = " + formatResult(addition(numbers));
+            system("cls");
             cout << result << endl;
             history.push_back(result);
             break;
@@ -106,9 +110,10 @@ int main() {
         case 2:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                result += to_string(numbers[i]) + " - ";
+                result += formatResult(numbers[i]) + " - ";
             }
-            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(soustraction(numbers));
+            result += formatResult(numbers[numbers.size() - 1]) + " = " + formatResult(soustraction(numbers));
+            system("cls");
             cout << result << endl;
             history.push_back(result);
             break;
@@ -116,9 +121,10 @@ int main() {
         case 3:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                result += to_string(numbers[i]) + " * ";
+                result += formatResult(numbers[i]) + " * ";
             }
-            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(multiplication(numbers));
+            result += formatResult(numbers[numbers.size() - 1]) + " = " + formatResult(multiplication(numbers));
+            system("cls");
             cout << result << endl;
             history.push_back(result);
             break;
@@ -128,8 +134,9 @@ int main() {
                 cout << "Division par 0 impossible" << endl;
                 break;
             }
+            system("cls");
             cout << numbers[0] << " / " << numbers[1] << " = " << division(numbers[0], numbers[1]) << endl;
-            history.push_back(to_string(numbers[0]) + " / " + to_string(numbers[0]) + " = " + to_string(division(numbers[0], numbers[1])));
+            history.push_back(formatResult(numbers[0]) + " / " + formatResult(numbers[0]) + " = " + formatResult(division(numbers[0], numbers[1])));
             break;
 
         case 5:
@@ -150,8 +157,9 @@ int main() {
                     break;
                 }
             }
+            system("cls");
             cout << number << " ^ " << exposant << " = " << puissance(number, exposant) << endl;
-            history.push_back(to_string(number) + " ^ " + to_string(exposant) + " = " + to_string(puissance(number, exposant)));
+            history.push_back(formatResult(number) + " ^ " + formatResult(exposant) + " = " + formatResult(puissance(number, exposant)));
             break;
 
         case 6:
@@ -185,13 +193,14 @@ static void showHistory(vector<string>& history)
     system("cls");
     if (history.size() == 0)
     {
-        cout << "Aucun calcul n'a été fait pour le moment" << endl;
+        cout << "Aucun calcul fait pour le moment" << endl << endl << endl;
         return;
     }
     for (string calcul : history)
     {
         cout << calcul << endl;
     }
+    cout << endl << endl;
 }
 
 double addition(vector<double>& numbers)
@@ -206,17 +215,17 @@ double addition(vector<double>& numbers)
 
 double soustraction(vector<double>& numbers)
 {
-    double result = 0;
-    for (double n : numbers) 
+    double result = numbers[0];
+    for (int i = 1; i < numbers.size(); i++) 
     {
-        result -= n;
+        result -= numbers[i];
     }
     return result;
 }
 
 double multiplication(vector<double>& numbers)
 {
-    double result = 0;
+    double result = 1;
     for (double n : numbers)
     {
         result *= n;
@@ -236,4 +245,17 @@ double puissance(double nombre, int exposant)
         result = result * nombre;
     }
     return result;
+}
+
+string formatResult(double result) {
+    ostringstream oss;
+    if (result == static_cast<int>(result)) {
+        // Pas de décimales si c'est un entier
+        oss << static_cast<int>(result);
+    }
+    else {
+        // Affiche avec 2 décimales si nécessaire
+        oss << fixed << setprecision(2) << result;
+    }
+    return oss.str();
 }
