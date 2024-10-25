@@ -37,12 +37,38 @@ int main() {
                 break;
             }
 
-            cout << "Entrer le premier nombre : ";
-            cin >> a;
+            while (true) {
+                cout << "Entrer le premier nombre : ";
+                cin >> a;
+
+                // Vérification de l'entrée utilisateur
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Entrez un nombre valide !" << endl;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             if (choice != 5) {
-                cout << "Entrez le second nombre : ";
-                cin >> b;
+                while (true) {
+                    cout << "Entrez le second nombre : ";
+                    cin >> b;
+
+                    // Vérification de l'entrée utilisateur
+                    if (cin.fail()) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Entrez un nombre valide !" << endl;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
         }
 
@@ -69,8 +95,21 @@ int main() {
             break;
 
         case 5:
-            cout << "Entrez l'exposant : ";
-            cin >> exposant;
+            while (true) {
+                cout << "Entrez l'exposant : ";
+                cin >> exposant;
+            
+                // Vérification de l'entrée utilisateur
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Entrez un nombre valide !" << endl;
+                }
+                else
+                {
+                    break;
+                }
+            }
             cout << a << " ^ " << exposant << " = " << puissance(a, exposant) << endl;
             break;
 
