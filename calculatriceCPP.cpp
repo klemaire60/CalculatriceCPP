@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -13,9 +14,11 @@ Etape 2 utiliser autant de nombre que l'on veut dans les fonctions (exemple 1 + 
 // Utilisation de Vecteurs 
 
 Etape 3 Créer un historique des calculs
+// Utilisation de Vecteurs
 */
 
 void showMenu();
+static void showHistory(vector<string>& history);
 double addition(vector<double>& numbers);
 double soustraction(vector<double>& numbers);
 double multiplication(vector<double>& numbers);
@@ -25,16 +28,18 @@ double puissance(double nombre, int exposant);
 int main() {
     int choice, exposant;
     double number;
+    vector<string> history;
 
     while (true)
     {
         vector<double> numbers;
+        string result;
         showMenu();
         cin >> choice;
         
-        if (choice >= 1 && choice <= 6)
+        if (choice >= 1 && choice <= 7)
         {
-            if (choice == 6) {
+            if (choice == 7) {
                 system("cls");
                 cout << "Au revoir !" << endl;
                 break;
@@ -91,25 +96,31 @@ int main() {
         case 1:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                cout << numbers[i] << " + ";
+                result += to_string(numbers[i]) + " + ";
             }
-            cout << numbers[numbers.size() - 1] << " = " << addition(numbers) << endl;
+            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(addition(numbers));
+            cout << result << endl;
+            history.push_back(result);
             break;
 
         case 2:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                cout << numbers[i] << " - ";
+                result += to_string(numbers[i]) + " - ";
             }
-            cout << numbers[numbers.size() - 1] << " = " << soustraction(numbers) << endl;
+            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(soustraction(numbers));
+            cout << result << endl;
+            history.push_back(result);
             break;
 
         case 3:
             for (int i = 0; i < numbers.size() - 1; i++)
             {
-                cout << numbers[i] << " * ";
+                result += to_string(numbers[i]) + " * ";
             }
-            cout << numbers[numbers.size() - 1] << " = " << multiplication(numbers) << endl;
+            result += to_string(numbers[numbers.size() - 1]) + " = " + to_string(multiplication(numbers));
+            cout << result << endl;
+            history.push_back(result);
             break;
 
         case 4:
@@ -118,6 +129,7 @@ int main() {
                 break;
             }
             cout << numbers[0] << " / " << numbers[1] << " = " << division(numbers[0], numbers[1]) << endl;
+            history.push_back(to_string(numbers[0]) + " / " + to_string(numbers[0]) + " = " + to_string(division(numbers[0], numbers[1])));
             break;
 
         case 5:
@@ -139,6 +151,11 @@ int main() {
                 }
             }
             cout << number << " ^ " << exposant << " = " << puissance(number, exposant) << endl;
+            history.push_back(to_string(number) + " ^ " + to_string(exposant) + " = " + to_string(puissance(number, exposant)));
+            break;
+
+        case 6:
+            showHistory(history);
             break;
 
         default :
@@ -159,13 +176,29 @@ void showMenu()
     cout << "[3] Multiplication" << endl;
     cout << "[4] Division" << endl;
     cout << "[5] Puissance" << endl;
-    cout << "[6] Quitter" << endl;
+    cout << "[6] Voir l'historique des calculs" << endl;
+    cout << "[7] Quitter" << endl;
+}
+
+static void showHistory(vector<string>& history)
+{
+    system("cls");
+    if (history.size() == 0)
+    {
+        cout << "Aucun calcul n'a été fait pour le moment" << endl;
+        return;
+    }
+    for (string calcul : history)
+    {
+        cout << calcul << endl;
+    }
 }
 
 double addition(vector<double>& numbers)
 {
     double result = 0;
-    for (double n : numbers) {
+    for (double n : numbers) 
+    {
         result += n;
     }
     return result;
@@ -174,7 +207,8 @@ double addition(vector<double>& numbers)
 double soustraction(vector<double>& numbers)
 {
     double result = 0;
-    for (double n : numbers) {
+    for (double n : numbers) 
+    {
         result -= n;
     }
     return result;
@@ -183,7 +217,8 @@ double soustraction(vector<double>& numbers)
 double multiplication(vector<double>& numbers)
 {
     double result = 0;
-    for (double n : numbers) {
+    for (double n : numbers)
+    {
         result *= n;
     }
     return result;
